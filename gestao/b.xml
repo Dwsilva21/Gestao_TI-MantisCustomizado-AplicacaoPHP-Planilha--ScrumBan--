@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbupt>
+<versao>
+<sql>ALTER TABLE fDescS_Garagem, DROP COLUMN fDescS_Outro, DROP COLUMN fDescS_Cjto, DROP COLUMN fDescS_Loja;</sql>
+<sql>ALTER TABLE histcomp ADD COLUMN isencao TINYINT DEFAULT 0 NULL;</sql>
+<sql>ALTER TABLE bloco DROP COLUMN fDesc_Apto, DROP COLUMN fDescS_Loja;</sql>
+<sql>ALTER TABLE recibo ADD COLUMN isencao TINYINT DEFAULT 0 NULL;</sql>
+</versao>
+<versao>
+<sql>ALTER TABLE mverba ADD COLUMN dtdesc2 DATE INYINT(1) DEFAULT 0 NULL;</sql>
+</versao>
+<versao>
+<sql>ALTER TABLE lotepagto CHANGE lote lote INT(11) NOT NULL, ADD PRIMARY KEY (lote);</sql>
+</versao>
+</dbupt>

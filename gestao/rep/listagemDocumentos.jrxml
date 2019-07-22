@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="listagemDocumentos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d3bf8aeb-ac30-4399-9d2d-f56b579d332c">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Heading 1" fontSize="16" isBold="true"/>
+	<style name="Crosstab Data Text" hAlign="Center">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{CD_CORMeasure} <> "#FF0000"]]></conditionExpression>
+			<style mode="Opaque" forecolor="#123456" backcolor="#654321"/>
+		</conditionalStyle>
+	</style>
+	<style name="style1">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{CD_CAIXA} == 1]]></conditionExpression>
+			<style mode="Opaque" forecolor="#FF9966" backcolor="#6633FF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="clienteDe" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="clienteAte" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[10]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT caixa.id CD_CAIXA,
+      cliente.id CD_CLIENTE,
+      cliente.nome NM_CLIENTE,
+      cliente.cnpj CNPJ,
+      tipo.nome TIPO, tipo.cor COR,
+      documento.nome NM_DOCUMENTO,
+      documento.observacao OBSERVACAO,
+      documento.dt_entrada DT_ENTRADA
+  FROM jasperreport.caixa caixa,
+       jasperreport.cliente cliente,
+       jasperreport.documento documento,
+       jasperreport.tipo_documento tipo
+  WHERE caixa.cliente = cliente.id
+      AND documento.cliente = caixa.cliente
+      AND documento.caixa = caixa.id
+      AND tipo.id = documento.tipo_documento
+      AND cliente.id BETWEEN $P{clienteDe} AND $P{clienteAte}
+  ORDER BY caixa.id]]>
+	</queryString>
+	<field name="CD_CAIXA" class="java.lang.Integer"/>
+	<field name="CD_CLIENTE" class="java.lang.Integer"/>
+	<field name="NM_CLIENTE" class="java.lang.String"/>
+	<field name="CNPJ" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="TIPO" class="java.lang.String"/>
+	<field name="COR" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="NM_DOCUMENTO" class="java.lang.String"/>
+	<field name="OBSERVACAO" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="DT_ENTRADA" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<group name="grupoCliente">
+		<groupExpression><![CDATA[$F{CD_CLIENTE}]]></groupExpression>
+		<groupHeader>
+			<band height="71">
+				<rectangle>
+					<reportElement x="0" y="0" width="555" height="71" backcolor="#CCFF00" uuid="d25da440-b9b9-48dd-a053-1b6d112bcf9f">
+						<property name="backcolor" value="#FF0000"/>
+						<printWhenExpression><![CDATA[$V{PAGE_NUMBER}.intValue() == 1]]></printWhenExpression>
+					</reportElement>
+				</rectangle>
+				<textField>
+					<reportElement x="139" y="13" width="374" height="20" uuid="027e76fd-e033-4c8d-b8cf-7be1dab78fbb"/>
+					<textFieldExpression><![CDATA[$F{NM_CLIENTE}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="139" y="33" width="173" height="20" uuid="6e31a2d7-e133-4e2d-8b25-26ddba4021b6"/>
+					<textFieldExpression><![CDATA[$F{CNPJ}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="39" y="33" width="100" height="20" uuid="9b498d5d-5826-473b-b8b8-8cf2f7ab9b33"/>
+					<text><![CDATA[CNPJ :]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="39" y="13" width="100" height="20" uuid="71fbe55e-8043-42f3-bec1-5decd4a64486"/>
+					<text><![CDATA[Cliente :]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="grupoCaixa">
+		<groupExpression><![CDATA[$F{CD_CAIXA}]]></groupExpression>
+		<groupHeader>
+			<band height="26">
+				<textField>
+					<reportElement x="112" y="6" width="247" height="15" uuid="d10109f5-e97d-4880-bba9-f2848c7d4925"/>
+					<textFieldExpression><![CDATA[$F{CD_CAIXA}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="10" y="6" width="102" height="15" uuid="48043928-f4a4-454c-9868-a4a39935b4fb"/>
+					<text><![CDATA[CAIXA :]]></text>
+				</staticText>
+				<line>
+					<reportElement x="5" y="4" width="550" height="1" uuid="1d2b5e2e-844e-4860-a2c6-452fb31ff1fb"/>
+				</line>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="20">
+				<textField>
+					<reportElement x="386" y="0" width="151" height="20" uuid="7164a7e0-cc5a-43fd-bec7-2c6640fcdae9"/>
+					<textFieldExpression><![CDATA[$V{grupoCaixa_COUNT}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="235" y="24" width="169" height="35" uuid="3e67f8e7-6f78-414c-8c30-f983e0b4ce9e"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATÓRIO DE DOCUMENTOS]]></text>
+			</staticText>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="404" y="4" width="140" height="20" uuid="e54b69f2-6272-454a-90b8-b1d4e1239433"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="28" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="4" width="555" height="20" backcolor="#006666" uuid="826a3f8d-2e58-4e62-a929-a112bb845822"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="5" width="100" height="20" uuid="83a48fde-d51b-4e73-ac43-288263e387a3"/>
+				<text><![CDATA[DOCUMENTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="112" y="5" width="100" height="20" uuid="335a6490-e24d-4256-97dd-06264714314c"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[TIPO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="5" width="100" height="20" uuid="9b5615ea-e5af-41c3-9ffd-614d79142747"/>
+				<text><![CDATA[ENTRADA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="312" y="5" width="232" height="20" uuid="92620aad-c73c-467f-b0cf-a60b70c90d00"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[OBSERVACAO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="32" splitType="Stretch">
+			<rectangle>
+				<reportElement style="style1" mode="Opaque" x="7" y="8" width="537" height="20" uuid="89dcc1c7-f84a-467f-b166-9780c5c2c730"/>
+			</rectangle>
+			<textField>
+				<reportElement style="style1" mode="Transparent" x="112" y="10" width="88" height="15" uuid="ebf67964-760d-4e88-853e-0ac07c53c4df"/>
+				<textFieldExpression><![CDATA[$F{TIPO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="style1" mode="Transparent" x="12" y="10" width="90" height="15" backcolor="#FFFFFF" uuid="f83807d8-f9f2-4cf1-bb62-a59d7fbd5db1"/>
+				<textFieldExpression><![CDATA[$F{NM_DOCUMENTO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="style1" mode="Transparent" x="212" y="10" width="100" height="15" backcolor="#FFFFFF" uuid="576067ee-a66a-4376-8c0c-f3d05025b43a"/>
+				<textFieldExpression><![CDATA[$F{DT_ENTRADA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="style1" mode="Transparent" x="312" y="10" width="232" height="15" backcolor="#FFFFFF" uuid="d04465f0-ea84-4900-b4df-421449353099"/>
+				<textFieldExpression><![CDATA[$F{OBSERVACAO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="27" splitType="Stretch">
+			<textField>
+				<reportElement x="200" y="3" width="99" height="20" uuid="59ace0d6-d9ed-46f1-a557-311155de3e04"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="299" y="3" width="40" height="20" uuid="a7517d75-bcaf-430e-b186-072eb2583791"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="266" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="555" height="223" uuid="94178ae9-dcb0-4369-979c-429d41fd262c"/>
+				<rowGroup name="CD_CAIXA" width="70" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{CD_CAIXA}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="a31ed7ea-544a-40cf-93c5-da9b421bfb81"/>
+								<textFieldExpression><![CDATA[$V{CD_CAIXA}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="140" height="25" forecolor="#FFFFFF" uuid="27dede20-e572-4a42-a3c5-cefc4a15ba81"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total CD_CAIXA]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<rowGroup name="TIPO" width="70" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{TIPO}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="a299b825-0d65-4f98-b8cd-2cf8e6489ab1"/>
+								<textFieldExpression><![CDATA[$V{TIPO}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="70" height="25" uuid="c71de916-6e6e-4a9b-baca-f81e15a81022"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total TIPO]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="CD_CAIXA1" height="30" totalPosition="End">
+					<bucket class="java.lang.Integer">
+						<bucketExpression><![CDATA[$F{CD_CAIXA}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque" style="Crosstab Data Text">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="30" uuid="808838ff-f606-43f3-a8bb-11fce7c8a7de"/>
+								<textFieldExpression><![CDATA[$V{CD_CAIXA1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#005FB3" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="50" height="60" forecolor="#FFFFFF" uuid="73e7ff91-84af-4881-bce1-698c7de3c6d0"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total CD_CAIXA1]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<columnGroup name="TIPO1" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{TIPO}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#F0F8FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="30" uuid="c9a45641-704f-4ab1-ad41-783dec923354"/>
+								<textFieldExpression><![CDATA[$V{TIPO1}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#BFE1FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="30" uuid="7505b327-1eba-47c8-a1cc-f1cd36c40f97"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle"/>
+								<text><![CDATA[Total TIPO1]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="CD_CAIXAMeasure" class="java.lang.Integer" calculation="Count">
+					<measureExpression><![CDATA[$F{CD_CAIXA}]]></measureExpression>
+				</measure>
+				<measure name="CD_CORMeasure" class="java.lang.String" calculation="Count">
+					<measureExpression><![CDATA[$F{COR}]]></measureExpression>
+				</measure>
+				<crosstabCell width="50" height="25">
+					<cellContents backcolor="#FFFFCC" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" mode="Transparent" x="0" y="0" width="50" height="25" forecolor="#000000" backcolor="#FFFFCC" uuid="77f56083-9ebc-4014-bf4b-63c9d4b5bec6"/>
+							<textFieldExpression><![CDATA[$V{CD_CORMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="25" rowTotalGroup="CD_CAIXA">
+					<cellContents backcolor="#005FB3" mode="Opaque" style="Crosstab Data Text">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="50" height="25" forecolor="#000000" uuid="02582e41-26f2-49fb-9b42-32619f99e6ee"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="CD_CAIXA1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="e5a01cd8-2757-41a9-bc11-c790afce072e"/>
+							<textElement textAlignment="Justified"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="CD_CAIXA" columnTotalGroup="CD_CAIXA1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="f9107d08-a9ff-4c9e-b972-deef6f39c894"/>
+							<textElement textAlignment="Center"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" columnTotalGroup="TIPO1">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="d68ad252-748b-47b4-8803-684d309165d2"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="CD_CAIXA" columnTotalGroup="TIPO1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="ab37dca1-ac39-458b-8b6b-d9b02fba4ba7"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="50" height="25" rowTotalGroup="TIPO">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="70ef93a5-1ec5-4ff5-9357-269557dd2724"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="TIPO" columnTotalGroup="CD_CAIXA1">
+					<cellContents backcolor="#005FB3" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement x="0" y="0" width="50" height="25" forecolor="#FFFFFF" uuid="51b7ad5b-eb6c-47f6-abea-91d21f8686f4"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell rowTotalGroup="TIPO" columnTotalGroup="TIPO1">
+					<cellContents backcolor="#BFE1FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField>
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="50" height="25" uuid="17cad701-e20b-4769-aab2-1db9f52719c7"/>
+							<textFieldExpression><![CDATA[$V{CD_CAIXAMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

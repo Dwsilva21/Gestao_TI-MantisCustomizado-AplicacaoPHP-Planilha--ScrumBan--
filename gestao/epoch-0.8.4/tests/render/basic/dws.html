@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="../css/tests.css">
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+        <script src="../../../dist/js/epoch.js"></script>
+        <script src="../js/data.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../../dist/css/epoch.css">
+		
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+		
+    </head>
+
+	<body> 
+
+        <!-- Test 11 -->
+        <div id="test-11" class="test">
+            <h2>11. Hide/Show Layers</h2>
+            <p>Correctly hide and show multiple layers</p>
+            <div class="epoch"></div>
+            <p>
+                <button data-index="0">Toggle A</button>
+                <button data-index="1">Toggle B</button>
+                <button data-index="2">Toggle C</button>
+                <button data-index="3">Toggle D</button>
+            </p>
+        </div>
+
+		<div class="epoch" id="lineChart" style="width: 900px; height: 250px"></div>
+        <div class="epoch" id="pie" className = 'category10' style="width: 400px; height: 400px"></div>
+
+
+		</body>  
+<script>
+
+var pieData = [
+  { label: 'Slice 1', value: 10 },
+  { label: 'Slice 2', value: 20 },
+  { label: 'Slice 3', value: 40 },
+  { label: 'Slice 4', value: 30 }
+]
+  $('#pie').epoch({
+    type: 'pie',
+    data: pieData
+  });
+
+var lineChartData = [
+  // The first series
+  {
+    label: "Series 1",
+    values: [ {x: 0, y: 10}, {x: 20, y: 100} , {x: 40, y: 90} , {x: 60, y: 50} ]
+  },
+
+  // The second series
+  {
+    label: "Series 2",
+    values: [ {x: 20, y: 78}, {x: 30, y: 98} , {x: 40, y: 100} , {x: 50, y: 100} ]
+  } 
+];
+  $('#lineChart').epoch({
+    type: 'line',
+    data: lineChartData
+  });
+</script>
+		
+        <script>
+		
+        $(function() {
+            var chart = $('#test-11 .epoch').epoch({
+                type: 'area',
+                data: data().add(function(x) { return x;      })
+                            .add(function(x) { return 2.5*x;  })
+                            .add(function(x) { return 1.5*x;  })
+                            .add(function(x) { return 3.0*x;  }).get([1, 20], 3)
+            });
+
+            $('#test-11 button').click(function(e) {
+                var index = parseInt($(e.target).attr('data-index'));
+                chart.toggleLayer(index);
+            });
+        });
+
+		
+
+
+        </script>
+
+    </body>
+</html>

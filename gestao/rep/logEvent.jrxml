@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="logEvent" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="27d7ac93-eeea-4c1d-ab69-7a0e6c43e24e">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="style1" backcolor="#FF9999">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$F{dump_value}=="0"]]></conditionExpression>
+			<style backcolor="#33FF33"/>
+		</conditionalStyle>
+	</style>
+	<style name="style2" backcolor="#3399FF"/>
+	<queryString>
+		<![CDATA[select * from logevent LIMIT 10]]>
+	</queryString>
+	<field name="dump_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dump_event" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="dump_value" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<staticText>
+				<reportElement x="100" y="10" width="294" height="20" uuid="fae49baa-3c8b-4292-81f7-793313eedbb7"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RELATORIO TESTE abc]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="bc4b0c19-9671-442c-8e97-a71d8f2f46b0"/>
+				<text><![CDATA[dump_date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="0" width="100" height="20" uuid="0f02d8d3-c78d-425a-b8a8-93353171cfab"/>
+				<text><![CDATA[dump_event]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="0" width="330" height="20" uuid="9325f5df-d073-4d84-bf93-33f2d985d9cf"/>
+				<text><![CDATA[dump_value]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="37" splitType="Stretch">
+			<textField>
+				<reportElement style="style2" mode="Opaque" x="0" y="0" width="100" height="20" uuid="bef12830-a014-4a35-8a68-c9485f8a7c58"/>
+				<textFieldExpression><![CDATA[$F{dump_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="style2" mode="Opaque" x="100" y="0" width="100" height="20" uuid="232bf203-0812-40e3-92ea-48357486d5e2"/>
+				<textFieldExpression><![CDATA[$F{dump_event}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="style1" mode="Opaque" x="200" y="0" width="330" height="20" uuid="bc07db7f-6fad-4fa4-b350-0dce64a97f36"/>
+				<textFieldExpression><![CDATA[$F{dump_value}
+]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="224" y="16" width="100" height="20" uuid="9c92bdee-b309-4592-8d90-d1c2d2e7d997"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="16" width="100" height="20" uuid="ada8aefe-f687-4967-8153-eaa5f4aa60ef"/>
+				<textFieldExpression><![CDATA[""+$P{REPORT_TIME_ZONE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
